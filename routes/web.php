@@ -4,6 +4,8 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ClientController;
 use App\Http\Controllers\CompanyController;
 use App\Http\Controllers\EntryExportController;
+use App\Http\Controllers\JiraConnectionController;
+use App\Http\Controllers\JiraIssueController;
 use App\Http\Controllers\LocaleController;
 use App\Http\Controllers\PasswordResetController;
 use App\Http\Controllers\ProjectController;
@@ -52,6 +54,12 @@ Route::middleware('auth')->group(function () {
         Route::post('/clients', [ClientController::class, 'store']);
         Route::put('/clients/{client}', [ClientController::class, 'update']);
         Route::delete('/clients/{client}', [ClientController::class, 'destroy']);
+
+        Route::get('/jira-connections', [JiraConnectionController::class, 'index']);
+        Route::post('/jira-connections', [JiraConnectionController::class, 'store']);
+        Route::put('/jira-connections/{jiraConnection}', [JiraConnectionController::class, 'update']);
+        Route::delete('/jira-connections/{jiraConnection}', [JiraConnectionController::class, 'destroy']);
+        Route::get('/projects/{project}/jira-issues', [JiraIssueController::class, 'index']);
 
         Route::get('/projects', [ProjectController::class, 'index']);
         Route::post('/projects', [ProjectController::class, 'store']);

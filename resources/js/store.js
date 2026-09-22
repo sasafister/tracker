@@ -11,6 +11,7 @@ export const state = reactive({
     entries: [],
     clients: [],
     projects: [],
+    jiraConnections: [],
     settings: {
         name: '',
         email: '',
@@ -45,6 +46,31 @@ export function clientFor(project) {
     return clientsById.value.get(project.client_id) ?? null;
 }
 
+export const jiraConnectionsById = computed(() => {
+    return new Map(state.jiraConnections.map((connection) => [connection.id, connection]));
+});
+
+/**
+ * The Jira connection a project searches tickets through, if any.
+ */
+export function jiraConnectionFor(project) {
+    if (! project || ! project.jira_connection_id) {
+        return null;
+    }
+
+    return jiraConnectionsById.value.get(project.jira_connection_id) ?? null;
+}
+
+export function jiraIssueUrl(entry) {
+    const connection = jiraConnectionFor(projectFor(entry));
+
+    if (! connection || ! entry.jira_issue_key) {
+        return null;
+    }
+
+    return `https://${connection.site}/browse/${entry.jira_issue_key}`;
+}
+
 export const projectsById = computed(() => {
     return new Map(state.projects.map((project) => [project.id, project]));
 });
@@ -75,6 +101,8 @@ export const pastDescriptions = computed(() => {
             description,
             project_id: entry.project_id,
             billable: entry.billable,
+            jira_issue_key: entry.jira_issue_key ?? null,
+            jira_issue_summary: entry.jira_issue_summary ?? null,
         });
     });
 
@@ -171,6 +199,45 @@ export function removeClient(id) {
     });
 }
 
+export function loadJiraConnections() {
+    return run(async () => {
+        state.jiraConnections = await api.listJiraConnections();
+    });
+}
+
+/**
+ * Saving checks the token with Jira, so a failure is returned to the form
+ * that asked rather than shown in the page banner.
+ */
+export async function saveJiraConnection(connection) {
+    const payload = {
+        name: connection.name,
+        site: connection.site,
+        email: connection.email,
+        token: connection.token || null,
+    };
+
+    if (connection.id) {
+        await api.updateJiraConnection(connection.id, payload);
+    } else {
+        await api.createJiraConnection(payload);
+    }
+
+    state.jiraConnections = await api.listJiraConnections();
+}
+
+/**
+ * Projects using it lose their Jira link on the server, so they are
+ * reloaded too.
+ */
+export function removeJiraConnection(id) {
+    return run(async () => {
+        await api.deleteJiraConnection(id);
+        state.jiraConnections = await api.listJiraConnections();
+        state.projects = await api.listProjects();
+    });
+}
+
 export function loadProjects() {
     return run(async () => {
         state.projects = await api.listProjects();
@@ -239,6 +306,9 @@ export function saveProject(project) {
     return run(async () => {
         const payload = {
             client_id: project.client_id,
+            jira_connection_id: project.jira_connection_id ?? null,
+            jira_project_key: project.jira_project_key || null,
+            jira_only_mine: Boolean(project.jira_only_mine),
             name: project.name,
             color: project.color,
             hourly_rate: project.hourly_rate,

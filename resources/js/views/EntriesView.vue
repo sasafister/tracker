@@ -12,6 +12,7 @@ import {
     amountForEntry,
     clientFor,
     editEntry,
+    jiraIssueUrl,
     projectFor,
     projectsById,
     removeEntry,
@@ -109,6 +110,7 @@ const rows = computed(() => {
         id: entry.id,
         entry,
         project: projectFor(entry),
+        jiraUrl: jiraIssueUrl(entry),
         client: clientFor(projectFor(entry)),
         day: new Date(entry.started_at).toLocaleDateString(intlLocale(), {
             weekday: 'short',
@@ -305,12 +307,30 @@ function confirmRemove(row) {
                     body-class="max-w-0 w-full"
                 >
                     <template #body="{ data }">
-                        <span
-                            class="block truncate"
-                            :class="data.entry.description ? '' : 'text-slate-400'"
-                            :title="data.entry.description ?? ''"
-                        >
-                            {{ data.entry.description || t('common.noDescription') }}
+                        <span class="flex min-w-0 items-center gap-2">
+                            <span
+                                class="min-w-0 truncate"
+                                :class="data.entry.description ? '' : 'text-slate-400'"
+                                :title="data.entry.description ?? ''"
+                            >
+                                {{ data.entry.description || t('common.noDescription') }}
+                            </span>
+
+                            <!-- The ticket, opening in Jira; a click here does not open the entry. -->
+                            <a
+                                v-if="data.jiraUrl"
+                                :href="data.jiraUrl"
+                                target="_blank"
+                                rel="noopener"
+                                class="inline-flex shrink-0 items-center gap-1 rounded border border-slate-200 px-1.5 py-0.5 font-mono text-[11px] font-semibold text-slate-600 transition hover:border-slate-400 hover:text-slate-900"
+                                :title="[t('jira.openTicket', { key: data.entry.jira_issue_key }), data.entry.jira_issue_summary]
+                                    .filter(Boolean)
+                                    .join(' — ')"
+                                @click.stop
+                            >
+                                {{ data.entry.jira_issue_key }}
+                                <span aria-hidden="true">↗</span>
+                            </a>
                         </span>
 
                         <!-- On a phone the day and time columns are hidden and shown here. -->

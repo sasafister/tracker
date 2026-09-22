@@ -107,6 +107,32 @@ export function deleteClient(id) {
     return request('DELETE', `/api/clients/${id}`);
 }
 
+export function listJiraConnections() {
+    return request('GET', '/api/jira-connections');
+}
+
+export function createJiraConnection(connection) {
+    return request('POST', '/api/jira-connections', connection);
+}
+
+export function updateJiraConnection(id, connection) {
+    return request('PUT', `/api/jira-connections/${id}`, connection);
+}
+
+export function deleteJiraConnection(id) {
+    return request('DELETE', `/api/jira-connections/${id}`);
+}
+
+/**
+ * Tickets for a project, through the server — Jira does not accept calls
+ * from the browser, and the token stays on the server.
+ */
+export function searchJiraIssues(projectId, query) {
+    const parameters = new URLSearchParams({ q: query });
+
+    return request('GET', `/api/projects/${projectId}/jira-issues?${parameters}`);
+}
+
 export function listProjects() {
     return request('GET', '/api/projects');
 }

@@ -1,8 +1,17 @@
 <script setup>
 import { computed, ref, watch } from 'vue';
 import DescriptionInput from './DescriptionInput.vue';
+import JiraIssueInput from './JiraIssueInput.vue';
 import ProjectSelect from './ProjectSelect.vue';
-import { editEntry, runningEntry, startTimer, state, stopTimer } from '../store.js';
+import {
+    editEntry,
+    jiraConnectionFor,
+    projectsById,
+    runningEntry,
+    startTimer,
+    state,
+    stopTimer,
+} from '../store.js';
 import { currencySign } from '../currencies.js';
 import { t } from '../i18n.js';
 import { entryDuration, formatDuration } from '../time.js';
@@ -10,10 +19,17 @@ import { entryDuration, formatDuration } from '../time.js';
 const description = ref('');
 const projectId = ref(null);
 const billable = ref(true);
+const jiraKey = ref(null);
+const jiraSummary = ref(null);
 
 const isRunning = computed(() => runningEntry.value !== null);
 
 const sign = computed(() => currencySign(state.settings.currency));
+
+// The ticket field only shows for a project linked to Jira.
+const hasJira = computed(() => {
+    return jiraConnectionFor(projectsById.value.get(projectId.value)) !== null;
+});
 
 const elapsed = computed(() => {
     if (! isRunning.value) {
@@ -33,6 +49,8 @@ function toggle() {
     startTimer({
         description: description.value.trim() || null,
         project_id: projectId.value,
+        jira_issue_key: hasJira.value ? jiraKey.value : null,
+        jira_issue_summary: hasJira.value ? jiraSummary.value : null,
         billable: billable.value,
     });
 }
@@ -73,9 +91,44 @@ function changeRunning(changes) {
     }
 }
 
+/**
+ * A ticket belongs to its project's Jira; moving to a project without one
+ * drops it.
+ */
 function selectProject(id) {
     projectId.value = id;
-    changeRunning({ project_id: id });
+
+    const changes = {
+        project_id: id,
+    };
+
+    if (! hasJira.value && jiraKey.value !== null) {
+        jiraKey.value = null;
+        jiraSummary.value = null;
+        changes.jira_issue_key = null;
+    }
+
+    changeRunning(changes);
+}
+
+function pickTicket(issue) {
+    jiraKey.value = issue.key;
+    jiraSummary.value = issue.summary;
+    description.value = `${issue.key} ${issue.summary}`.trim();
+
+    changeRunning({
+        description: description.value,
+        jira_issue_key: issue.key,
+        jira_issue_summary: issue.summary,
+    });
+}
+
+function clearTicket(key) {
+    if (key === null && jiraKey.value !== null) {
+        jiraKey.value = null;
+        jiraSummary.value = null;
+        changeRunning({ jira_issue_key: null });
+    }
 }
 
 function toggleBillable() {
@@ -86,10 +139,14 @@ function toggleBillable() {
 function pickDescription(suggestion) {
     projectId.value = suggestion.project_id;
     billable.value = suggestion.billable;
+    jiraKey.value = suggestion.jira_issue_key;
+    jiraSummary.value = suggestion.jira_issue_summary;
 
     changeRunning({
         description: suggestion.description,
         project_id: suggestion.project_id,
+        jira_issue_key: suggestion.jira_issue_key,
+        jira_issue_summary: suggestion.jira_issue_summary,
         billable: suggestion.billable,
     });
 }
@@ -99,6 +156,8 @@ watch(runningEntry, (entry) => {
     description.value = entry === null ? '' : (entry.description ?? '');
     projectId.value = entry === null ? null : entry.project_id;
     billable.value = entry === null ? true : entry.billable;
+    jiraKey.value = entry === null ? null : (entry.jira_issue_key ?? null);
+    jiraSummary.value = entry === null ? null : (entry.jira_issue_summary ?? null);
 });
 </script>
 
@@ -126,6 +185,20 @@ watch(runningEntry, (entry) => {
         </div>
 
         <div class="order-3 basis-full md:hidden"></div>
+
+        <!-- On a phone the ticket gets a row of its own, above the project. -->
+        <div
+            v-if="hasJira"
+            class="order-4 basis-full md:basis-auto md:w-44 md:flex-none"
+        >
+            <JiraIssueInput
+                :project-id="projectId"
+                :model-value="jiraKey"
+                :summary="jiraSummary"
+                @pick="pickTicket"
+                @update:model-value="clearTicket"
+            />
+        </div>
 
         <div class="order-4 min-w-0 flex-1 md:w-52 md:flex-none">
             <ProjectSelect

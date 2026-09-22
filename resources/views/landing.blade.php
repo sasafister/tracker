@@ -329,6 +329,41 @@
 
                         <p class="text-zinc-400">{{ $tile('privacy')['text'] }}</p>
                     </article>
+
+                    {{-- Jira: the ticket picker, as it looks in the app. --}}
+                    <article class="reveal flex flex-col gap-10 overflow-hidden rounded-[1.75rem] bg-white p-8 lg:col-span-3 lg:flex-row lg:items-center lg:gap-16 lg:p-12">
+                        <div class="lg:flex-1">
+                            <p class="flex items-center gap-2 text-sm font-semibold text-zinc-500">
+                                <svg viewBox="0 0 32 32" class="size-5" aria-hidden="true">
+                                    <path fill="#2684FF" d="M29.3 15.1 17.3 3.1l-1.2-1.1-9 9-4.1 4.1a1.2 1.2 0 0 0 0 1.7l8.2 8.2 4.9 4.9 9-9 .1-.1 4.1-4.1a1.2 1.2 0 0 0 0-1.6Zm-13.2 5-4.1-4.1 4.1-4.1 4.1 4.1-4.1 4.1Z" />
+                                </svg>
+                                {{ $tile('jira')['eyebrow'] }}
+                            </p>
+                            <h3 class="mt-2 text-2xl font-semibold tracking-tight sm:text-3xl">{{ $tile('jira')['title'] }}</h3>
+                            <p class="mt-2 max-w-md text-zinc-500">{{ $tile('jira')['text'] }}</p>
+                        </div>
+
+                        <div class="w-full max-w-md self-center rounded-2xl border border-zinc-200 bg-white p-3 shadow-2xl shadow-zinc-900/10 lg:w-[26rem]" aria-hidden="true">
+                            <div class="flex items-center justify-between rounded-lg border border-zinc-900 px-3 py-2 text-sm text-zinc-400">
+                                {{ __('app.preview.ticket_search') }}
+                                <svg viewBox="0 0 20 20" fill="currentColor" class="size-4 text-zinc-500">
+                                    <path d="M5.2 7.7a.75.75 0 0 1 1.06.02L10 11.6l3.74-3.88a.75.75 0 1 1 1.08 1.04l-4.28 4.44a.75.75 0 0 1-1.08 0L5.18 8.76a.75.75 0 0 1 .02-1.06Z" />
+                                </svg>
+                            </div>
+
+                            <ul class="mt-2 text-sm">
+                                @foreach ([['ACME-128', 'Checkout: save the delivery address'], ['ACME-131', 'Logo upload with form validation'], ['ACME-137', 'Deploy the release to staging']] as [$key, $title])
+                                    <li @class([
+                                        'flex items-baseline gap-3 rounded-lg px-3 py-2',
+                                        'bg-zinc-100' => $loop->index === 1,
+                                    ])>
+                                        <span class="shrink-0 font-mono text-xs font-semibold">{{ $key }}</span>
+                                        <span class="truncate text-zinc-700">{{ $title }}</span>
+                                    </li>
+                                @endforeach
+                            </ul>
+                        </div>
+                    </article>
                 </div>
             </div>
         </section>

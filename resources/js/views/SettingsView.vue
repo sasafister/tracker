@@ -6,6 +6,7 @@ import InputText from 'primevue/inputtext';
 import Password from 'primevue/password';
 import Select from 'primevue/select';
 import Textarea from 'primevue/textarea';
+import JiraConnections from '../components/JiraConnections.vue';
 import {
     changePassword,
     saveCompany,
@@ -351,6 +352,8 @@ watch(
                     </div>
                 </div>
             </form>
+
+            <JiraConnections />
 
             <section class="rounded-lg border border-slate-200 bg-white p-6">
                 <h2 class="text-base font-semibold">{{ t('settings.allTime') }}</h2>

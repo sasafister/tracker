@@ -57,24 +57,32 @@ export const primeVueTexts = {
         emptyMessage: 'Nema dostupnih opcija',
         emptySearchMessage: 'Nema rezultata',
         searchMessage: '{0} rezultata',
+        selectionMessage: '{0} odabrano',
+        emptySelectionMessage: 'Ništa nije odabrano',
     },
     en: {
         emptyFilterMessage: 'No results found',
         emptyMessage: 'No options available',
         emptySearchMessage: 'No results found',
         searchMessage: '{0} results are available',
+        selectionMessage: '{0} items selected',
+        emptySelectionMessage: 'No selected item',
     },
     de: {
         emptyFilterMessage: 'Keine Ergebnisse',
         emptyMessage: 'Keine Optionen verfügbar',
         emptySearchMessage: 'Keine Ergebnisse',
         searchMessage: '{0} Ergebnisse verfügbar',
+        selectionMessage: '{0} ausgewählt',
+        emptySelectionMessage: 'Nichts ausgewählt',
     },
     sl: {
         emptyFilterMessage: 'Ni rezultatov',
         emptyMessage: 'Ni razpoložljivih možnosti',
         emptySearchMessage: 'Ni rezultatov',
         searchMessage: '{0} rezultatov',
+        selectionMessage: '{0} izbrano',
+        emptySelectionMessage: 'Nič ni izbrano',
     },
 };
 

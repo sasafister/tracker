@@ -65,6 +65,11 @@ return [
                 'title' => 'Your data stays yours.',
                 'text' => 'Each account sees only its own. Rates, descriptions and company details are stored encrypted.',
             ],
+            'jira' => [
+                'eyebrow' => 'Jira',
+                'title' => 'Jira tickets, one click away.',
+                'text' => 'Link a project to Jira Cloud and pick tickets as you track time. The key and title go into the entry, with a link straight to the ticket.',
+            ],
         ],
         'without_title' => 'Less is more.',
         'without_text' => 'Timer is small on purpose. You will not find:',
@@ -72,7 +77,7 @@ return [
             'Screenshots and activity tracking',
             'Team dashboards and approvals',
             'Invoicing and accounting',
-            'Integrations to set up',
+            'Charts and analytics nobody reads',
             'Settings that need a manual',
         ],
         'steps_title' => 'Three steps. That is all.',
@@ -96,6 +101,7 @@ return [
     ],
 
     'preview' => [
+        'ticket_search' => 'Search tickets…',
         'placeholder' => 'What are you working on?',
         'stop' => 'Stop',
         'days' => ['Mon', 'Tue', 'Wed', 'Thu', 'Fri'],
@@ -190,5 +196,14 @@ return [
         'no_description' => '(no description)',
         'no_project' => 'No project',
         'in_progress' => 'in progress',
+    ],
+
+    'jira' => [
+        'invalid_credentials' => 'Jira does not recognise the email :email with this token. Enter exactly the email you sign in to Jira with and check the whole token was copied. A new token can take a minute to start working.',
+        'missing_scope' => 'The token was accepted but cannot read tickets. Create a token with the read:jira-work and read:jira-user scopes.',
+        'token_rejected' => 'Jira rejected the token. It may have expired — create a new one and save it in Settings.',
+        'unavailable' => 'Jira is not responding right now (:status). Try again a little later.',
+        'not_linked' => 'This project is not linked to Jira.',
+        'site_format' => 'Enter the address of a Jira Cloud site, e.g. company.atlassian.net.',
     ],
 ];

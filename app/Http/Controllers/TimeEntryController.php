@@ -61,6 +61,8 @@ class TimeEntryController extends Controller
         $data = $request->validate([
             'description' => ['nullable', 'string', 'max:255'],
             'project_id' => ['nullable', 'integer', $this->ownProject($request)],
+            'jira_issue_key' => ['nullable', 'string', 'max:64', 'regex:/^[A-Z][A-Z0-9_]*-\d+$/'],
+            'jira_issue_summary' => ['nullable', 'string', 'max:255'],
             'billable' => ['sometimes', 'boolean'],
             'started_at' => ['sometimes', 'date'],
             'ended_at' => ['required_with:started_at', 'date', 'after:started_at'],
@@ -82,6 +84,8 @@ class TimeEntryController extends Controller
         $entry = $user->timeEntries()->create([
             'description' => $data['description'] ?? null,
             'project_id' => $data['project_id'] ?? null,
+            'jira_issue_key' => $data['jira_issue_key'] ?? null,
+            'jira_issue_summary' => isset($data['jira_issue_key']) ? ($data['jira_issue_summary'] ?? null) : null,
             'billable' => $data['billable'] ?? true,
             'started_at' => $isManual ? $data['started_at'] : $now,
             'ended_at' => $isManual ? $data['ended_at'] : null,
@@ -101,6 +105,8 @@ class TimeEntryController extends Controller
         $data = $request->validate([
             'description' => ['sometimes', 'nullable', 'string', 'max:255'],
             'project_id' => ['sometimes', 'nullable', 'integer', $this->ownProject($request)],
+            'jira_issue_key' => ['sometimes', 'nullable', 'string', 'max:64', 'regex:/^[A-Z][A-Z0-9_]*-\d+$/'],
+            'jira_issue_summary' => ['sometimes', 'nullable', 'string', 'max:255'],
             'billable' => ['sometimes', 'boolean'],
             'started_at' => ['sometimes', 'date'],
             'ended_at' => ['sometimes', 'nullable', 'date'],
@@ -113,6 +119,14 @@ class TimeEntryController extends Controller
 
         if (array_key_exists('project_id', $data)) {
             $timeEntry->project_id = $data['project_id'];
+        }
+
+        // The title goes with its ticket: set together, cleared together.
+        if (array_key_exists('jira_issue_key', $data)) {
+            $timeEntry->jira_issue_key = $data['jira_issue_key'];
+            $timeEntry->jira_issue_summary = $data['jira_issue_key'] === null
+                ? null
+                : ($data['jira_issue_summary'] ?? $timeEntry->jira_issue_summary);
         }
 
         if (isset($data['billable'])) {

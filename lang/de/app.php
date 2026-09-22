@@ -65,6 +65,11 @@ return [
                 'title' => 'Deine Daten bleiben deine.',
                 'text' => 'Jedes Konto sieht nur seine eigenen. Sätze, Beschreibungen und Firmendaten werden verschlüsselt gespeichert.',
             ],
+            'jira' => [
+                'eyebrow' => 'Jira',
+                'title' => 'Jira-Tickets mit einem Klick.',
+                'text' => 'Verbinde ein Projekt mit Jira Cloud und wähle Tickets, während du Zeit erfasst. Schlüssel und Titel landen im Eintrag, mit Link direkt zum Ticket.',
+            ],
         ],
         'without_title' => 'Weniger ist mehr.',
         'without_text' => 'Timer ist bewusst klein. Das findest du darin nicht:',
@@ -72,7 +77,7 @@ return [
             'Screenshots und Aktivitätsüberwachung',
             'Team-Dashboards und Freigaben',
             'Rechnungsstellung und Buchhaltung',
-            'Integrationen zum Einrichten',
+            'Diagramme und Analysen, die niemand liest',
             'Einstellungen mit Handbuch',
         ],
         'steps_title' => 'Drei Schritte. Das ist alles.',
@@ -96,6 +101,7 @@ return [
     ],
 
     'preview' => [
+        'ticket_search' => 'Tickets suchen…',
         'placeholder' => 'Woran arbeitest du?',
         'stop' => 'Stopp',
         'days' => ['Mo', 'Di', 'Mi', 'Do', 'Fr'],
@@ -190,5 +196,14 @@ return [
         'no_description' => '(ohne Beschreibung)',
         'no_project' => 'Ohne Projekt',
         'in_progress' => 'läuft',
+    ],
+
+    'jira' => [
+        'invalid_credentials' => 'Jira erkennt die E-Mail :email mit diesem Token nicht. Gib genau die E-Mail ein, mit der du dich bei Jira anmeldest, und prüfe, ob der ganze Token kopiert wurde. Ein neuer Token kann eine Minute brauchen.',
+        'missing_scope' => 'Der Token wurde akzeptiert, darf aber keine Tickets lesen. Erstelle einen Token mit den Scopes read:jira-work und read:jira-user.',
+        'token_rejected' => 'Jira hat den Token abgelehnt. Vielleicht ist er abgelaufen — erstelle einen neuen und speichere ihn in den Einstellungen.',
+        'unavailable' => 'Jira antwortet gerade nicht (:status). Versuche es etwas später erneut.',
+        'not_linked' => 'Dieses Projekt ist nicht mit Jira verbunden.',
+        'site_format' => 'Gib die Adresse einer Jira-Cloud-Seite ein, z. B. firma.atlassian.net.',
     ],
 ];

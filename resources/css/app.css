@@ -215,3 +215,12 @@
         transform: none;
     }
 }
+
+/*
+ * The Jira ticket list grows with the titles, but no wider than this, so
+ * PrimeVue places it under its field instead of pushing it to the far edge.
+ * Inside a dialog the component narrows it further to the dialog's edge.
+ */
+.jira-issue-list {
+    max-width: min(28rem, calc(100vw - 2rem));
+}

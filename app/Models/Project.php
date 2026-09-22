@@ -15,6 +15,9 @@ class Project extends Model
 {
     protected $fillable = [
         'client_id',
+        'jira_connection_id',
+        'jira_project_key',
+        'jira_only_mine',
         'name',
         'color',
         'hourly_rate',
@@ -24,6 +27,7 @@ class Project extends Model
     {
         return [
             'hourly_rate' => EncryptedDecimal::class,
+            'jira_only_mine' => 'boolean',
         ];
     }
 
@@ -35,6 +39,11 @@ class Project extends Model
     public function client(): BelongsTo
     {
         return $this->belongsTo(Client::class);
+    }
+
+    public function jiraConnection(): BelongsTo
+    {
+        return $this->belongsTo(JiraConnection::class);
     }
 
     public function timeEntries(): HasMany

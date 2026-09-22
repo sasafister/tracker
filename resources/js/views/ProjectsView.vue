@@ -7,6 +7,7 @@ import InputText from 'primevue/inputtext';
 import Menu from 'primevue/menu';
 import Select from 'primevue/select';
 import Textarea from 'primevue/textarea';
+import ToggleSwitch from 'primevue/toggleswitch';
 import { useConfirm } from 'primevue/useconfirm';
 import {
     removeClient,
@@ -109,8 +110,18 @@ function blankProject() {
         name: '',
         color: palette[0],
         hourly_rate: null,
+        jira_connection_id: null,
+        jira_project_key: '',
+        jira_only_mine: false,
     };
 }
+
+const jiraOptions = computed(() => {
+    return state.jiraConnections.map((connection) => ({
+        label: `${connection.name} · ${connection.site}`,
+        value: connection.id,
+    }));
+});
 
 function blankClient() {
     return {
@@ -136,6 +147,9 @@ function openEditProject(project) {
         name: project.name,
         color: project.color,
         hourly_rate: project.hourly_rate === null ? null : Number(project.hourly_rate),
+        jira_connection_id: project.jira_connection_id,
+        jira_project_key: project.jira_project_key ?? '',
+        jira_only_mine: project.jira_only_mine,
     });
     projectError.value = null;
     projectDialogVisible.value = true;
@@ -454,6 +468,13 @@ function clientDetails(client) {
                                     :style="{ backgroundColor: project.color }"
                                 ></span>
                                 {{ project.name }}
+
+                                <span
+                                    v-if="project.jira_connection_id"
+                                    class="rounded border border-zinc-200 px-1.5 py-0.5 font-mono text-[11px] font-medium text-zinc-500"
+                                >
+                                    Jira{{ project.jira_project_key ? ` · ${project.jira_project_key}` : '' }}
+                                </span>
                             </span>
                         </td>
 
@@ -596,6 +617,51 @@ function clientDetails(client) {
                         {{ t('projects.rateHint') }}
                     </span>
                 </label>
+
+                <!-- Jira: which site to pick tickets from, narrowed to one project. -->
+                <div class="flex flex-col gap-3 border-t border-zinc-100 pt-5 text-sm">
+                    <p
+                        v-if="jiraOptions.length === 0"
+                        class="text-xs text-zinc-500"
+                    >
+                        {{ t('jira.addConnectionFirst') }}
+                    </p>
+
+                    <template v-else>
+                        <label class="flex flex-col gap-1.5">
+                            <span class="font-medium text-zinc-700">{{ t('jira.projectConnection') }}</span>
+
+                            <Select
+                                v-model="projectForm.jira_connection_id"
+                                :options="jiraOptions"
+                                option-label="label"
+                                option-value="value"
+                                :placeholder="t('jira.noConnection')"
+                                show-clear
+                                fluid
+                            />
+                        </label>
+
+                        <template v-if="projectForm.jira_connection_id">
+                            <label class="flex flex-col gap-1.5">
+                                <span class="font-medium text-zinc-700">{{ t('jira.projectKey') }}</span>
+
+                                <InputText
+                                    v-model="projectForm.jira_project_key"
+                                    :placeholder="t('jira.projectKeyPlaceholder')"
+                                    class="uppercase"
+                                    maxlength="32"
+                                    @update:model-value="projectForm.jira_project_key = ($event ?? '').toUpperCase()"
+                                />
+                            </label>
+
+                            <label class="flex items-center gap-3">
+                                <ToggleSwitch v-model="projectForm.jira_only_mine" />
+                                <span class="text-zinc-700">{{ t('jira.onlyMine') }}</span>
+                            </label>
+                        </template>
+                    </template>
+                </div>
 
                 <p
                     v-if="projectError"

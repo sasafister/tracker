@@ -65,6 +65,11 @@ return [
                 'title' => 'Tvoji podatki ostanejo tvoji.',
                 'text' => 'Vsak račun vidi samo svoje. Postavke, opisi in podatki podjetja so shranjeni šifrirano.',
             ],
+            'jira' => [
+                'eyebrow' => 'Jira',
+                'title' => 'Zahtevki iz Jire z enim klikom.',
+                'text' => 'Poveži projekt z Jiro Cloud in izbiraj zahtevke, medtem ko beležiš čas. Ključ in naslov gresta v vnos, povezava pa vodi naravnost na zahtevek.',
+            ],
         ],
         'without_title' => 'Manj je več.',
         'without_text' => 'Timer je namenoma majhen. Tega v njem ne boš našel:',
@@ -72,7 +77,7 @@ return [
             'Posnetkov zaslona in spremljanja aktivnosti',
             'Timskih nadzornih plošč in odobritev',
             'Izdajanja računov in računovodstva',
-            'Integracij za nastavljanje',
+            'Grafov in analitike, ki je nihče ne bere',
             'Nastavitev s priročnikom',
         ],
         'steps_title' => 'Trije koraki. To je vse.',
@@ -96,6 +101,7 @@ return [
     ],
 
     'preview' => [
+        'ticket_search' => 'Išči zahtevke…',
         'placeholder' => 'Na čem delaš?',
         'stop' => 'Ustavi',
         'days' => ['Pon', 'Tor', 'Sre', 'Čet', 'Pet'],
@@ -190,5 +196,14 @@ return [
         'no_description' => '(brez opisa)',
         'no_project' => 'Brez projekta',
         'in_progress' => 'v teku',
+    ],
+
+    'jira' => [
+        'invalid_credentials' => 'Jira ne prepozna e-pošte :email s tem žetonom. Vpiši točno e-pošto, s katero se prijavljaš v Jiro, in preveri, ali je kopiran cel žeton. Nov žeton lahko potrebuje minuto, da začne delovati.',
+        'missing_scope' => 'Žeton je sprejet, vendar ne more brati zahtevkov. Ustvari žeton z obsegoma read:jira-work in read:jira-user.',
+        'token_rejected' => 'Jira je zavrnila žeton. Morda je potekel — ustvari novega in ga shrani v Nastavitvah.',
+        'unavailable' => 'Jira trenutno ne odgovarja (:status). Poskusi znova malo kasneje.',
+        'not_linked' => 'Ta projekt ni povezan z Jiro.',
+        'site_format' => 'Vpiši naslov strani Jira Cloud, npr. podjetje.atlassian.net.',
     ],
 ];

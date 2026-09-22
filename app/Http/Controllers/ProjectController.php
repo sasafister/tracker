@@ -30,6 +30,9 @@ class ProjectController extends Controller
 
         $project = $request->user()->projects()->create([
             'client_id' => $data['client_id'] ?? null,
+            'jira_connection_id' => $data['jira_connection_id'] ?? null,
+            'jira_project_key' => $data['jira_project_key'] ?? null,
+            'jira_only_mine' => $data['jira_only_mine'] ?? false,
             'name' => $data['name'],
             'color' => $data['color'] ?? '#475569',
             'hourly_rate' => $data['hourly_rate'] ?? null,
@@ -50,8 +53,10 @@ class ProjectController extends Controller
             $project->color = $data['color'];
         }
 
-        if (array_key_exists('client_id', $data)) {
-            $project->client_id = $data['client_id'];
+        foreach (['client_id', 'jira_connection_id', 'jira_project_key', 'jira_only_mine'] as $field) {
+            if (array_key_exists($field, $data)) {
+                $project->{$field} = $data[$field];
+            }
         }
 
         // An empty rate means "use my default".
@@ -95,6 +100,15 @@ class ProjectController extends Controller
                 Rule::exists('clients', 'id')->where('user_id', $userId),
             ],
             'hourly_rate' => ['nullable', 'numeric', 'min:0', 'max:99999999'],
+            'jira_connection_id' => [
+                'sometimes',
+                'nullable',
+                'integer',
+                Rule::exists('jira_connections', 'id')->where('user_id', $userId),
+            ],
+            // A Jira project key, like FUR: upper-case letters and digits.
+            'jira_project_key' => ['sometimes', 'nullable', 'string', 'max:32', 'regex:/^[A-Z][A-Z0-9_]*$/'],
+            'jira_only_mine' => ['sometimes', 'boolean'],
         ]);
     }
 
@@ -108,6 +122,9 @@ class ProjectController extends Controller
         return [
             'id' => $project->id,
             'client_id' => $project->client_id,
+            'jira_connection_id' => $project->jira_connection_id,
+            'jira_project_key' => $project->jira_project_key,
+            'jira_only_mine' => $project->jira_only_mine,
             'name' => $project->name,
             'color' => $project->color,
             'hourly_rate' => $project->hourly_rate,

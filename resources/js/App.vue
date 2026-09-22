@@ -12,6 +12,7 @@ import SettingsView from './views/SettingsView.vue';
 import {
     loadClients,
     loadEntries,
+    loadJiraConnections,
     loadProjects,
     loadSettings,
     startClock,
@@ -75,6 +76,7 @@ onMounted(async () => {
     await Promise.all([
         loadSettings(),
         loadClients(),
+        loadJiraConnections(),
         loadProjects(),
         loadEntries(),
     ]);

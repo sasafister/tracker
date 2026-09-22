@@ -84,6 +84,11 @@ class User extends Authenticatable implements HasLocalePreference
         return $this->hasMany(Client::class);
     }
 
+    public function jiraConnections(): HasMany
+    {
+        return $this->hasMany(JiraConnection::class);
+    }
+
     /**
      * What an hour on the given project is worth for this user: the rate set
      * on their project if there is one, otherwise their own default.
