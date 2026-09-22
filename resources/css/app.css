@@ -1,0 +1,193 @@
+@import 'tailwindcss';
+
+@source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
+@source '../../storage/framework/views/*.php';
+
+/*
+ * Tailwind v4 gives buttons the default arrow; everything clickable shows
+ * the hand instead. In the base layer so a utility class can still override.
+ */
+@layer base {
+    a[href],
+    button:not(:disabled),
+    [role='button'],
+    [role='menuitem'],
+    [role='option'],
+    summary,
+    select,
+    label:has(input[type='checkbox']),
+    input[type='checkbox'],
+    input[type='radio'],
+    input[type='color'] {
+        cursor: pointer;
+    }
+
+    button:disabled {
+        cursor: not-allowed;
+    }
+
+    /* A monochrome focus ring instead of the browser's blue. */
+    :focus-visible {
+        outline: 2px solid #18181b;
+        outline-offset: 2px;
+    }
+
+    /* The focus ring is for keyboard users; a click or tap does not leave one. */
+    button:focus:not(:focus-visible) {
+        outline: none;
+    }
+}
+
+@theme {
+    --font-sans: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
+        'Segoe UI Symbol', 'Noto Color Emoji';
+}
+
+/*
+ * The week calendar, drawn after Toggl's: quiet grid, day totals in the
+ * header, tinted entries, and a purple "now" line with a play dot.
+ */
+.timer-calendar {
+    --timer-accent: #8e3f8f;
+    --fc-border-color: #eceef1;
+    --fc-today-bg-color: transparent;
+    --fc-now-indicator-color: var(--timer-accent);
+    --fc-event-bg-color: #e4e4e7;
+    --fc-event-border-color: transparent;
+    --fc-event-text-color: #52525b;
+    --fc-highlight-color: rgb(142 63 143 / 0.08);
+
+    font-size: 0.8125rem;
+}
+
+.timer-calendar .fc .fc-scrollgrid {
+    border: none;
+}
+
+.timer-calendar .fc .fc-col-header-cell {
+    border-left: none;
+    border-right: none;
+    text-align: left;
+}
+
+.timer-calendar .fc .fc-col-header-cell-cushion {
+    padding: 0.25rem 0.75rem;
+}
+
+/*
+ * A quarter hour per row. The height comes with the zoom class FullCalendar
+ * puts on each row, so it is already in place when the rows are measured.
+ * Line height is dropped so an empty cell cannot hold a row taller.
+ */
+.timer-calendar .fc .fc-timegrid-slot {
+    height: 1rem;
+    line-height: 0;
+}
+
+.timer-calendar .fc .fc-timegrid-slot-lane.timer-zoom-0 {
+    height: 0.75rem;
+}
+
+.timer-calendar .fc .fc-timegrid-slot-lane.timer-zoom-1 {
+    height: 1rem;
+}
+
+.timer-calendar .fc .fc-timegrid-slot-lane.timer-zoom-2 {
+    height: 1.5rem;
+}
+
+.timer-calendar .fc .fc-timegrid-slot-lane.timer-zoom-3 {
+    height: 2.25rem;
+}
+
+/* Entries open on click. */
+.timer-calendar .fc .fc-event {
+    cursor: pointer;
+}
+
+/* Only the full hours get a line; the quarters exist to snap clicks. */
+.timer-calendar .fc .fc-timegrid-slot-minor {
+    border-top-style: none;
+}
+
+/*
+ * Labels sit on their hour line and take no height of their own, so the
+ * rows can shrink below the height of a line of text.
+ */
+.timer-calendar .fc .fc-timegrid-slot-label-frame {
+    position: relative;
+    height: 0;
+}
+
+.timer-calendar .fc .fc-timegrid-slot-label-cushion {
+    position: absolute;
+    top: -0.4rem;
+    right: 0;
+    padding-right: 0.75rem;
+    color: #71717a;
+    font-size: 0.75rem;
+    line-height: 0.8rem;
+}
+
+.timer-calendar .fc .fc-timegrid-slot-label {
+    height: 0;
+    vertical-align: top;
+    border: none;
+}
+
+.timer-calendar .fc .fc-timegrid-event-harness-inset .fc-timegrid-event {
+    box-shadow: none;
+}
+
+.timer-calendar .timer-entry {
+    margin: 1px 3px;
+    border: none;
+    border-radius: 0.5rem;
+}
+
+.timer-calendar .timer-entry--no-project {
+    background-image: repeating-linear-gradient(
+        135deg,
+        rgb(0 0 0 / 0.045) 0 6px,
+        transparent 6px 12px
+    );
+}
+
+.timer-calendar .timer-entry--non-billable {
+    opacity: 0.6;
+}
+
+.timer-calendar .timer-entry--running {
+    box-shadow: inset 0 0 0 1.5px var(--timer-accent);
+}
+
+.timer-calendar .fc .fc-timegrid-now-indicator-line {
+    border-width: 1.5px 0 0;
+}
+
+/* The axis arrow becomes a round play button sitting on the line. */
+.timer-calendar .fc .fc-timegrid-now-indicator-arrow {
+    margin-top: -7px;
+    border: none;
+    right: 2px;
+    left: auto;
+}
+
+.timer-now-dot {
+    position: relative;
+    display: block;
+    width: 14px;
+    height: 14px;
+    border-radius: 9999px;
+    background: var(--timer-accent);
+}
+
+.timer-now-dot::after {
+    content: '';
+    position: absolute;
+    top: 4px;
+    left: 5px;
+    border-style: solid;
+    border-width: 3px 0 3px 5px;
+    border-color: transparent transparent transparent #fff;
+}
