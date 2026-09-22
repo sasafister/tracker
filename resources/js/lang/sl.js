@@ -98,7 +98,7 @@ export default {
     'projects.rateHint': "Pusti prazno za svojo privzeto postavko.",
     'projects.add': "Dodaj projekt",
     'projects.editClient': "Uredi stranko",
-    'projects.clientNamePlaceholder': "npr. Furniloy d.o.o.",
+    'projects.clientNamePlaceholder': "npr. Acme d.o.o.",
     'projects.address': "Naslov",
     'projects.addressPlaceholder': "Ulica in hišna številka\n1000 Ljubljana",
     'projects.taxId': "OIB / ID za DDV",

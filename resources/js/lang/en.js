@@ -106,7 +106,7 @@ export default {
     'projects.rateHint': 'Leave empty to use your default rate.',
     'projects.add': 'Add project',
     'projects.editClient': 'Edit client',
-    'projects.clientNamePlaceholder': 'e.g. Furniloy d.o.o.',
+    'projects.clientNamePlaceholder': 'e.g. Acme d.o.o.',
     'projects.address': 'Address',
     'projects.addressPlaceholder': 'Street and number\n10000 Zagreb',
     'projects.taxId': 'OIB / VAT ID',

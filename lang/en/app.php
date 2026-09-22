@@ -9,39 +9,90 @@ return [
     'language' => 'Language',
 
     'nav' => [
+        'how' => 'How it works',
         'features' => 'Features',
+        'without' => 'What it leaves out',
         'login' => 'Sign in',
-        'start' => 'Get started',
+        'register' => 'Create account',
     ],
 
     'landing' => [
-        'badge' => 'A rate per project and per person',
-        'headline' => 'Know exactly where your time goes.',
-        'headline_accent' => 'And what it is worth.',
-        'lead' => 'Start the timer with one click or log hours straight into the weekly calendar. For every entry Timer knows the project, the rate and whether it is billable.',
-        'cta_register' => 'Create a free account',
-        'cta_login' => 'I already have an account',
-        'features_title' => 'Everything you need to bill your hours, nothing more.',
-        'features' => [
-            'timer' => [
-                'title' => 'One-click timer',
-                'text' => 'Type what you are working on, pick a project and go. A new timer stops the previous one.',
-            ],
+        'headline' => 'Just time. Nothing else.',
+        'subhead' => 'A simple tracker for your working hours, with a calendar, hourly rates and a monthly report. No complications, no features you do not need.',
+        'cta_register' => 'Create an account',
+        'cta_login' => 'Sign in',
+        'signin_eyebrow' => 'Sign in',
+        'signin_title' => 'Welcome back.',
+        'signin_text' => 'Your hours are waiting right where you left them.',
+        'clock_line1' => 'One click to start.',
+        'clock_line2' => 'One to stop.',
+        'clock_text' => 'Type what you are working on and go. The time runs in the browser tab too, and a new timer stops the previous one.',
+        'bento_title' => 'Everything you need.',
+        'bento_subtitle' => 'And nothing you do not.',
+        'tiles' => [
             'calendar' => [
-                'title' => 'Weekly calendar',
-                'text' => 'Click or drag on the grid to log past hours. Drag an entry to move it or make it longer.',
+                'eyebrow' => 'Week calendar',
+                'title' => 'Your week in one place.',
+                'text' => 'Day, 5 days or the whole week. Drag to log an entry, move it or make it longer.',
             ],
             'rates' => [
-                'title' => 'A rate per project',
-                'text' => 'Everyone has a default rate, and a project can have a different one.',
+                'eyebrow' => 'Rates',
+                'title' => 'A rate per project.',
+                'text' => 'A default for you, a different one where needed. Every entry keeps its own.',
             ],
             'billable' => [
-                'title' => 'Billable or not',
-                'text' => 'Every entry is billable or it is not. The amount counts billable time only.',
+                'eyebrow' => 'Billable',
+                'title' => 'Billable or not.',
+                'text' => 'The amount counts only what gets billed.',
+            ],
+            'report' => [
+                'eyebrow' => 'Report',
+                'title' => 'The whole month in one PDF.',
+                'text' => 'Hours, rates and the amount due, with your company and your client at the top.',
+            ],
+            'clients' => [
+                'eyebrow' => 'Clients',
+                'title' => 'Projects by client.',
+                'text' => 'With the address and the OIB or VAT ID.',
+            ],
+            'languages' => [
+                'eyebrow' => 'Languages and currencies',
+                'title' => 'Your language. Your currency.',
+                'text' => 'Croatian, English, German and Slovenian. Euro, dollar, pound and more.',
+            ],
+            'privacy' => [
+                'eyebrow' => 'Privacy',
+                'title' => 'Your data stays yours.',
+                'text' => 'Each account sees only its own. Rates, descriptions and company details are stored encrypted.',
             ],
         ],
-        'final_title' => 'Log your first hour in a minute.',
-        'final_text' => 'Create an account, set your rate and start the timer.',
+        'without_title' => 'Less is more.',
+        'without_text' => 'Timer is small on purpose. You will not find:',
+        'without' => [
+            'Screenshots and activity tracking',
+            'Team dashboards and approvals',
+            'Invoicing and accounting',
+            'Integrations to set up',
+            'Settings that need a manual',
+        ],
+        'steps_title' => 'Three steps. That is all.',
+        'steps' => [
+            [
+                'title' => 'Set your rate.',
+                'text' => 'Create an account and enter your rate and currency. Add clients and projects when you need them.',
+            ],
+            [
+                'title' => 'Track your time.',
+                'text' => 'Press start, or drag in the calendar for hours you have already worked.',
+            ],
+            [
+                'title' => 'Send the month.',
+                'text' => 'Pick the month and client and export the PDF to bill.',
+            ],
+        ],
+        'final_title' => 'Your time is worth it.',
+        'final_text' => 'Create an account, set your rate and press start.',
+        'tagline' => 'A simple time tracker.',
     ],
 
     'preview' => [

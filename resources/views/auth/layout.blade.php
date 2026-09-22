@@ -15,7 +15,7 @@
         <main class="flex flex-1 flex-col px-4 py-8 sm:px-10 lg:flex-none lg:basis-[34rem] lg:px-16">
             <div class="flex items-center justify-between gap-4">
                 @include('partials.logo')
-                @include('partials.language-switcher')
+                @include('partials.language-menu')
             </div>
 
             <div class="my-auto w-full max-w-sm self-center py-12 lg:self-start">

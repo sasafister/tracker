@@ -16,7 +16,8 @@ class ExampleTest extends TestCase
 
         $this->get('/', ['Accept-Language' => 'hr'])
             ->assertOk()
-            ->assertSee('Napravi besplatan račun');
+            ->assertSee('Samo vrijeme. Ništa više.')
+            ->assertSee('action="/login"', false);
     }
 
     public function test_the_dashboard_renders_for_a_signed_in_user(): void

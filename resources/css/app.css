@@ -191,3 +191,27 @@
     border-width: 3px 0 3px 5px;
     border-color: transparent transparent transparent #fff;
 }
+
+/*
+ * Landing page: elements rise in as they scroll into view. Only when the
+ * script is there to reveal them again, and never for reduced motion.
+ */
+@media (prefers-reduced-motion: no-preference) {
+    .js .reveal {
+        opacity: 0;
+        transform: translateY(1.5rem);
+        transition:
+            opacity 0.9s cubic-bezier(0.22, 1, 0.36, 1),
+            transform 0.9s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+
+    .js .reveal-slow {
+        transform: translateY(3rem) scale(0.98);
+        transition-duration: 1.4s;
+    }
+
+    .js .reveal.is-visible {
+        opacity: 1;
+        transform: none;
+    }
+}

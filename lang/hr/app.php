@@ -9,39 +9,90 @@ return [
     'language' => 'Jezik',
 
     'nav' => [
+        'how' => 'Kako radi',
         'features' => 'Značajke',
+        'without' => 'Što nema',
         'login' => 'Prijava',
-        'start' => 'Započni',
+        'register' => 'Napravi račun',
     ],
 
     'landing' => [
-        'badge' => 'Satnica po projektu i po osobi',
-        'headline' => 'Znaj točno gdje ti ide vrijeme.',
-        'headline_accent' => 'I koliko vrijedi.',
-        'lead' => 'Pokreni timer jednim klikom ili upiši sate izravno u tjedni kalendar. Timer za svaki unos zna projekt, satnicu i je li naplativ.',
-        'cta_register' => 'Napravi besplatan račun',
-        'cta_login' => 'Već imam račun',
-        'features_title' => 'Sve što treba za naplatu sati, ništa više.',
-        'features' => [
-            'timer' => [
-                'title' => 'Timer jednim klikom',
-                'text' => 'Upiši na čemu radiš, odaberi projekt i kreni. Novi timer sam zaustavi prethodni.',
-            ],
+        'headline' => 'Samo vrijeme. Ništa više.',
+        'subhead' => 'Jednostavan tracker radnih sati s kalendarom, satnicama i mjesečnim izvještajem. Bez komplikacija i suvišnih funkcija.',
+        'cta_register' => 'Napravi račun',
+        'cta_login' => 'Prijavi se',
+        'signin_eyebrow' => 'Prijava',
+        'signin_title' => 'Dobro došao natrag.',
+        'signin_text' => 'Tvoji sati te čekaju točno gdje si stao.',
+        'clock_line1' => 'Jedan klik za start.',
+        'clock_line2' => 'Jedan za stop.',
+        'clock_text' => 'Upiši na čemu radiš i kreni. Vrijeme teče i na tabu u browseru, a novi timer sam zaustavi prethodni.',
+        'bento_title' => 'Sve što ti treba.',
+        'bento_subtitle' => 'I ništa što ti ne treba.',
+        'tiles' => [
             'calendar' => [
-                'title' => 'Tjedni kalendar',
-                'text' => 'Klikni ili povuci po mreži da upišeš sate unatrag. Unos pomakneš ili produljiš povlačenjem.',
+                'eyebrow' => 'Tjedni kalendar',
+                'title' => 'Tvoj tjedan na jednom mjestu.',
+                'text' => 'Dan, 5 dana ili cijeli tjedan. Povuci da upišeš, pomakneš ili produljiš.',
             ],
             'rates' => [
-                'title' => 'Satnica po projektu',
-                'text' => 'Svatko ima svoju zadanu satnicu, a za pojedini projekt može imati drugačiju.',
+                'eyebrow' => 'Satnice',
+                'title' => 'Satnica po projektu.',
+                'text' => 'Zadana za tebe, drugačija gdje treba. Svaki unos pamti svoju.',
             ],
             'billable' => [
-                'title' => 'Naplativo ili ne',
-                'text' => 'Svaki unos je naplativ ili nije. Iznos broji samo naplativo vrijeme.',
+                'eyebrow' => 'Naplativo',
+                'title' => 'Naplativo ili ne.',
+                'text' => 'Iznos broji samo ono što se naplaćuje.',
+            ],
+            'report' => [
+                'eyebrow' => 'Izvještaj',
+                'title' => 'Cijeli mjesec u jednom PDF-u.',
+                'text' => 'Sati, satnice i iznos za naplatu, s tvojom tvrtkom i klijentom u zaglavlju.',
+            ],
+            'clients' => [
+                'eyebrow' => 'Klijenti',
+                'title' => 'Projekti po klijentima.',
+                'text' => 'S adresom i OIB-om ili VAT ID-om.',
+            ],
+            'languages' => [
+                'eyebrow' => 'Jezici i valute',
+                'title' => 'Tvoj jezik. Tvoja valuta.',
+                'text' => 'Hrvatski, engleski, njemački i slovenski. Euro, dolar, funta i druge.',
+            ],
+            'privacy' => [
+                'eyebrow' => 'Privatnost',
+                'title' => 'Tvoji podaci ostaju tvoji.',
+                'text' => 'Svaki račun vidi samo svoje. Satnice, opisi i podaci tvrtke spremaju se šifrirano.',
             ],
         ],
-        'final_title' => 'Prvi sat upiši za minutu.',
-        'final_text' => 'Napravi račun, postavi satnicu i pokreni timer.',
+        'without_title' => 'Manje je više.',
+        'without_text' => 'Timer je namjerno malen. Ovo u njemu nećeš naći:',
+        'without' => [
+            'Screenshotove i praćenje aktivnosti',
+            'Timske nadzorne ploče i odobravanja',
+            'Fakturiranje i knjigovodstvo',
+            'Integracije koje treba postaviti',
+            'Postavke za koje treba priručnik',
+        ],
+        'steps_title' => 'Tri koraka. To je sve.',
+        'steps' => [
+            [
+                'title' => 'Postavi satnicu.',
+                'text' => 'Napravi račun, upiši satnicu i valutu. Klijente i projekte dodaj kad zatrebaju.',
+            ],
+            [
+                'title' => 'Bilježi vrijeme.',
+                'text' => 'Pritisni start ili povuci po kalendaru za sate koje si već odradio.',
+            ],
+            [
+                'title' => 'Pošalji mjesec.',
+                'text' => 'Odaberi mjesec i klijenta i izvezi PDF za naplatu.',
+            ],
+        ],
+        'final_title' => 'Tvoje vrijeme vrijedi.',
+        'final_text' => 'Napravi račun, postavi satnicu i pritisni start.',
+        'tagline' => 'Jednostavan tracker vremena.',
     ],
 
     'preview' => [

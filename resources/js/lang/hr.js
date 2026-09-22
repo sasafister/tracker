@@ -98,7 +98,7 @@ export default {
     'projects.rateHint': "Ostavi prazno za svoju zadanu satnicu.",
     'projects.add': "Dodaj projekt",
     'projects.editClient': "Uredi klijenta",
-    'projects.clientNamePlaceholder': "npr. Furniloy d.o.o.",
+    'projects.clientNamePlaceholder': "npr. Acme d.o.o.",
     'projects.address': "Adresa",
     'projects.addressPlaceholder': "Ulica i broj\n10000 Zagreb",
     'projects.taxId': "OIB / VAT ID",

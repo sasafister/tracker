@@ -9,39 +9,90 @@ return [
     'language' => 'Jezik',
 
     'nav' => [
+        'how' => 'Kako deluje',
         'features' => 'Funkcije',
+        'without' => 'Česa ni',
         'login' => 'Prijava',
-        'start' => 'Začni',
+        'register' => 'Ustvari račun',
     ],
 
     'landing' => [
-        'badge' => 'Urna postavka po projektu in po osebi',
-        'headline' => 'Vedi natanko, kam gre tvoj čas.',
-        'headline_accent' => 'In koliko je vreden.',
-        'lead' => 'Zaženi časovnik z enim klikom ali vpiši ure neposredno v tedenski koledar. Timer za vsak vnos pozna projekt, urno postavko in ali ga je mogoče zaračunati.',
-        'cta_register' => 'Ustvari brezplačen račun',
-        'cta_login' => 'Račun že imam',
-        'features_title' => 'Vse, kar potrebuješ za zaračunavanje ur, nič več.',
-        'features' => [
-            'timer' => [
-                'title' => 'Časovnik z enim klikom',
-                'text' => 'Vpiši, na čem delaš, izberi projekt in začni. Nov časovnik sam ustavi prejšnjega.',
-            ],
+        'headline' => 'Samo čas. Nič drugega.',
+        'subhead' => 'Preprost časovnik za delovne ure, s koledarjem, urnimi postavkami in mesečnim poročilom. Brez zapletov in odvečnih funkcij.',
+        'cta_register' => 'Ustvari račun',
+        'cta_login' => 'Prijavi se',
+        'signin_eyebrow' => 'Prijava',
+        'signin_title' => 'Dobrodošel nazaj.',
+        'signin_text' => 'Tvoje ure te čakajo točno tam, kjer si ostal.',
+        'clock_line1' => 'En klik za začetek.',
+        'clock_line2' => 'En za ustavitev.',
+        'clock_text' => 'Vpiši, na čem delaš, in začni. Čas teče tudi na zavihku brskalnika, nov časovnik pa sam ustavi prejšnjega.',
+        'bento_title' => 'Vse, kar potrebuješ.',
+        'bento_subtitle' => 'In nič, česar ne potrebuješ.',
+        'tiles' => [
             'calendar' => [
-                'title' => 'Tedenski koledar',
-                'text' => 'Klikni ali povleci po mreži, da vpišeš pretekle ure. Vnos premakneš ali podaljšaš z vlečenjem.',
+                'eyebrow' => 'Tedenski koledar',
+                'title' => 'Tvoj teden na enem mestu.',
+                'text' => 'Dan, 5 dni ali cel teden. Povleci, da vnos vpišeš, premakneš ali podaljšaš.',
             ],
             'rates' => [
-                'title' => 'Urna postavka po projektu',
-                'text' => 'Vsak ima svojo privzeto postavko, posamezen projekt pa ima lahko drugačno.',
+                'eyebrow' => 'Postavke',
+                'title' => 'Postavka po projektu.',
+                'text' => 'Privzeta zate, drugačna, kjer je treba. Vsak vnos si zapomni svojo.',
             ],
             'billable' => [
-                'title' => 'Zaračunljivo ali ne',
-                'text' => 'Vsak vnos je zaračunljiv ali ni. Znesek šteje samo zaračunljiv čas.',
+                'eyebrow' => 'Zaračunljivo',
+                'title' => 'Zaračunljivo ali ne.',
+                'text' => 'Znesek šteje samo tisto, kar se zaračuna.',
+            ],
+            'report' => [
+                'eyebrow' => 'Poročilo',
+                'title' => 'Cel mesec v enem PDF-ju.',
+                'text' => 'Ure, postavke in znesek za plačilo, s tvojim podjetjem in stranko v glavi.',
+            ],
+            'clients' => [
+                'eyebrow' => 'Stranke',
+                'title' => 'Projekti po strankah.',
+                'text' => 'Z naslovom in OIB ali ID za DDV.',
+            ],
+            'languages' => [
+                'eyebrow' => 'Jeziki in valute',
+                'title' => 'Tvoj jezik. Tvoja valuta.',
+                'text' => 'Hrvaščina, angleščina, nemščina in slovenščina. Evro, dolar, funt in drugo.',
+            ],
+            'privacy' => [
+                'eyebrow' => 'Zasebnost',
+                'title' => 'Tvoji podatki ostanejo tvoji.',
+                'text' => 'Vsak račun vidi samo svoje. Postavke, opisi in podatki podjetja so shranjeni šifrirano.',
             ],
         ],
-        'final_title' => 'Prvo uro vpiši v minuti.',
-        'final_text' => 'Ustvari račun, nastavi urno postavko in zaženi časovnik.',
+        'without_title' => 'Manj je več.',
+        'without_text' => 'Timer je namenoma majhen. Tega v njem ne boš našel:',
+        'without' => [
+            'Posnetkov zaslona in spremljanja aktivnosti',
+            'Timskih nadzornih plošč in odobritev',
+            'Izdajanja računov in računovodstva',
+            'Integracij za nastavljanje',
+            'Nastavitev s priročnikom',
+        ],
+        'steps_title' => 'Trije koraki. To je vse.',
+        'steps' => [
+            [
+                'title' => 'Nastavi postavko.',
+                'text' => 'Ustvari račun, vpiši postavko in valuto. Stranke in projekte dodaj, ko jih potrebuješ.',
+            ],
+            [
+                'title' => 'Beleži čas.',
+                'text' => 'Pritisni začni ali povleci po koledarju za ure, ki si jih že opravil.',
+            ],
+            [
+                'title' => 'Pošlji mesec.',
+                'text' => 'Izberi mesec in stranko ter izvozi PDF za zaračunanje.',
+            ],
+        ],
+        'final_title' => 'Tvoj čas je vreden.',
+        'final_text' => 'Ustvari račun, nastavi postavko in pritisni začni.',
+        'tagline' => 'Preprost časovnik.',
     ],
 
     'preview' => [

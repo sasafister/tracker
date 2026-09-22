@@ -98,7 +98,7 @@ export default {
     'projects.rateHint': "Leer lassen, um deinen Standardsatz zu verwenden.",
     'projects.add': "Projekt anlegen",
     'projects.editClient': "Kunde bearbeiten",
-    'projects.clientNamePlaceholder': "z. B. Furniloy d.o.o.",
+    'projects.clientNamePlaceholder': "z. B. Acme d.o.o.",
     'projects.address': "Adresse",
     'projects.addressPlaceholder': "Straße und Hausnummer\n10115 Berlin",
     'projects.taxId': "OIB / USt-IdNr.",

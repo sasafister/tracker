@@ -20,7 +20,7 @@ class LocaleTest extends TestCase
     public function test_guests_get_their_browsers_language(): void
     {
         $this->get('/', ['Accept-Language' => 'de-DE,de;q=0.9'])
-            ->assertSee('Kostenloses Konto erstellen')
+            ->assertSee('Nur Zeit. Sonst nichts.')
             ->assertSee('<html lang="de"', false);
     }
 
@@ -73,5 +73,21 @@ class LocaleTest extends TestCase
         $this->actingAs(User::factory()->create(['locale' => 'sl']))
             ->get('/')
             ->assertSee('<html lang="sl"', false);
+    }
+
+    public function test_a_failed_sign_in_on_the_landing_page_comes_back_to_it_with_the_error(): void
+    {
+        $user = User::factory()->create();
+
+        $this->from('/')
+            ->post('/login', [
+                'email' => $user->email,
+                'password' => 'wrong',
+            ], ['Accept-Language' => 'en'])
+            ->assertRedirect('/');
+
+        $this->get('/', ['Accept-Language' => 'en'])
+            ->assertSee('Wrong email or password.')
+            ->assertSee($user->email);
     }
 }

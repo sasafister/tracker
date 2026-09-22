@@ -9,39 +9,90 @@ return [
     'language' => 'Sprache',
 
     'nav' => [
+        'how' => 'So funktioniert’s',
         'features' => 'Funktionen',
+        'without' => 'Was fehlt',
         'login' => 'Anmelden',
-        'start' => 'Loslegen',
+        'register' => 'Konto erstellen',
     ],
 
     'landing' => [
-        'badge' => 'Stundensatz pro Projekt und pro Person',
-        'headline' => 'Wisse genau, wohin deine Zeit geht.',
-        'headline_accent' => 'Und was sie wert ist.',
-        'lead' => 'Starte den Timer mit einem Klick oder trage Stunden direkt in den Wochenkalender ein. Timer kennt für jeden Eintrag das Projekt, den Stundensatz und ob er abrechenbar ist.',
-        'cta_register' => 'Kostenloses Konto erstellen',
-        'cta_login' => 'Ich habe schon ein Konto',
-        'features_title' => 'Alles, was du zum Abrechnen deiner Stunden brauchst, und nicht mehr.',
-        'features' => [
-            'timer' => [
-                'title' => 'Timer mit einem Klick',
-                'text' => 'Gib ein, woran du arbeitest, wähle ein Projekt und los. Ein neuer Timer stoppt den vorherigen.',
-            ],
+        'headline' => 'Nur Zeit. Sonst nichts.',
+        'subhead' => 'Ein einfacher Zeiterfasser für deine Arbeitsstunden, mit Kalender, Stundensätzen und Monatsbericht. Ohne Komplikationen, ohne überflüssige Funktionen.',
+        'cta_register' => 'Konto erstellen',
+        'cta_login' => 'Anmelden',
+        'signin_eyebrow' => 'Anmelden',
+        'signin_title' => 'Willkommen zurück.',
+        'signin_text' => 'Deine Stunden warten genau dort, wo du aufgehört hast.',
+        'clock_line1' => 'Ein Klick zum Starten.',
+        'clock_line2' => 'Einer zum Stoppen.',
+        'clock_text' => 'Gib ein, woran du arbeitest, und los. Die Zeit läuft auch im Browser-Tab, und ein neuer Timer stoppt den vorherigen.',
+        'bento_title' => 'Alles, was du brauchst.',
+        'bento_subtitle' => 'Und nichts, was du nicht brauchst.',
+        'tiles' => [
             'calendar' => [
-                'title' => 'Wochenkalender',
-                'text' => 'Klicke oder ziehe im Raster, um vergangene Stunden einzutragen. Einträge verschiebst oder verlängerst du per Ziehen.',
+                'eyebrow' => 'Wochenkalender',
+                'title' => 'Deine Woche an einem Ort.',
+                'text' => 'Ein Tag, 5 Tage oder die ganze Woche. Ziehen zum Eintragen, Verschieben oder Verlängern.',
             ],
             'rates' => [
-                'title' => 'Stundensatz pro Projekt',
-                'text' => 'Jede Person hat einen Standardsatz, und ein Projekt kann einen eigenen haben.',
+                'eyebrow' => 'Stundensätze',
+                'title' => 'Ein Satz pro Projekt.',
+                'text' => 'Ein Standard für dich, ein eigener, wo nötig. Jeder Eintrag behält seinen.',
             ],
             'billable' => [
-                'title' => 'Abrechenbar oder nicht',
-                'text' => 'Jeder Eintrag ist abrechenbar oder nicht. Der Betrag zählt nur abrechenbare Zeit.',
+                'eyebrow' => 'Abrechenbar',
+                'title' => 'Abrechenbar oder nicht.',
+                'text' => 'Der Betrag zählt nur, was abgerechnet wird.',
+            ],
+            'report' => [
+                'eyebrow' => 'Bericht',
+                'title' => 'Der ganze Monat in einem PDF.',
+                'text' => 'Stunden, Sätze und Rechnungsbetrag, mit deiner Firma und deinem Kunden im Kopf.',
+            ],
+            'clients' => [
+                'eyebrow' => 'Kunden',
+                'title' => 'Projekte nach Kunden.',
+                'text' => 'Mit Adresse und OIB oder USt-IdNr.',
+            ],
+            'languages' => [
+                'eyebrow' => 'Sprachen und Währungen',
+                'title' => 'Deine Sprache. Deine Währung.',
+                'text' => 'Kroatisch, Englisch, Deutsch und Slowenisch. Euro, Dollar, Pfund und mehr.',
+            ],
+            'privacy' => [
+                'eyebrow' => 'Datenschutz',
+                'title' => 'Deine Daten bleiben deine.',
+                'text' => 'Jedes Konto sieht nur seine eigenen. Sätze, Beschreibungen und Firmendaten werden verschlüsselt gespeichert.',
             ],
         ],
-        'final_title' => 'Trage deine erste Stunde in einer Minute ein.',
-        'final_text' => 'Erstelle ein Konto, lege deinen Stundensatz fest und starte den Timer.',
+        'without_title' => 'Weniger ist mehr.',
+        'without_text' => 'Timer ist bewusst klein. Das findest du darin nicht:',
+        'without' => [
+            'Screenshots und Aktivitätsüberwachung',
+            'Team-Dashboards und Freigaben',
+            'Rechnungsstellung und Buchhaltung',
+            'Integrationen zum Einrichten',
+            'Einstellungen mit Handbuch',
+        ],
+        'steps_title' => 'Drei Schritte. Das ist alles.',
+        'steps' => [
+            [
+                'title' => 'Satz festlegen.',
+                'text' => 'Konto erstellen, Satz und Währung eingeben. Kunden und Projekte kommen, wenn du sie brauchst.',
+            ],
+            [
+                'title' => 'Zeit erfassen.',
+                'text' => 'Start drücken oder im Kalender ziehen, für Stunden, die du schon gearbeitet hast.',
+            ],
+            [
+                'title' => 'Monat verschicken.',
+                'text' => 'Monat und Kunden wählen und das PDF zur Abrechnung exportieren.',
+            ],
+        ],
+        'final_title' => 'Deine Zeit ist es wert.',
+        'final_text' => 'Konto erstellen, Satz festlegen und Start drücken.',
+        'tagline' => 'Ein einfacher Zeiterfasser.',
     ],
 
     'preview' => [
