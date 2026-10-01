@@ -61,14 +61,30 @@ export function jiraConnectionFor(project) {
     return jiraConnectionsById.value.get(project.jira_connection_id) ?? null;
 }
 
-export function jiraIssueUrl(entry) {
+export function jiraIssueUrl(entry, issueKey = null) {
     const connection = jiraConnectionFor(projectFor(entry));
+    const key = issueKey ?? jiraIssuesFor(entry)[0]?.key;
 
-    if (! connection || ! entry.jira_issue_key) {
+    if (! connection || ! key) {
         return null;
     }
 
-    return `https://${connection.site}/browse/${entry.jira_issue_key}`;
+    return `https://${connection.site}/browse/${key}`;
+}
+
+export function jiraIssuesFor(entry) {
+    if (Array.isArray(entry.jira_issues)) {
+        return entry.jira_issues;
+    }
+
+    if (! entry.jira_issue_key) {
+        return [];
+    }
+
+    return [{
+        key: entry.jira_issue_key,
+        summary: entry.jira_issue_summary ?? null,
+    }];
 }
 
 export const projectsById = computed(() => {
@@ -101,8 +117,7 @@ export const pastDescriptions = computed(() => {
             description,
             project_id: entry.project_id,
             billable: entry.billable,
-            jira_issue_key: entry.jira_issue_key ?? null,
-            jira_issue_summary: entry.jira_issue_summary ?? null,
+            jira_issues: jiraIssuesFor(entry),
         });
     });
 

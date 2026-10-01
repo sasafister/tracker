@@ -63,6 +63,9 @@ class TimeEntryController extends Controller
             'project_id' => ['nullable', 'integer', $this->ownProject($request)],
             'jira_issue_key' => ['nullable', 'string', 'max:64', 'regex:/^[A-Z][A-Z0-9_]*-\d+$/'],
             'jira_issue_summary' => ['nullable', 'string', 'max:255'],
+            'jira_issues' => ['sometimes', 'array', 'max:20'],
+            'jira_issues.*.key' => ['required_with:jira_issues', 'string', 'max:64', 'regex:/^[A-Z][A-Z0-9_]*-\d+$/', 'distinct:strict'],
+            'jira_issues.*.summary' => ['nullable', 'string', 'max:255'],
             'billable' => ['sometimes', 'boolean'],
             'started_at' => ['sometimes', 'date'],
             'ended_at' => ['required_with:started_at', 'date', 'after:started_at'],
@@ -71,6 +74,7 @@ class TimeEntryController extends Controller
         $user = $request->user();
         $isManual = isset($data['started_at']);
         $now = now();
+        $issues = $data['jira_issues'] ?? $this->legacyIssues($data);
 
         if (! $isManual) {
             $user->timeEntries()
@@ -84,8 +88,9 @@ class TimeEntryController extends Controller
         $entry = $user->timeEntries()->create([
             'description' => $data['description'] ?? null,
             'project_id' => $data['project_id'] ?? null,
-            'jira_issue_key' => $data['jira_issue_key'] ?? null,
-            'jira_issue_summary' => isset($data['jira_issue_key']) ? ($data['jira_issue_summary'] ?? null) : null,
+            'jira_issue_key' => $issues[0]['key'] ?? null,
+            'jira_issue_summary' => $issues[0]['summary'] ?? null,
+            'jira_issues' => $issues,
             'billable' => $data['billable'] ?? true,
             'started_at' => $isManual ? $data['started_at'] : $now,
             'ended_at' => $isManual ? $data['ended_at'] : null,
@@ -107,6 +112,9 @@ class TimeEntryController extends Controller
             'project_id' => ['sometimes', 'nullable', 'integer', $this->ownProject($request)],
             'jira_issue_key' => ['sometimes', 'nullable', 'string', 'max:64', 'regex:/^[A-Z][A-Z0-9_]*-\d+$/'],
             'jira_issue_summary' => ['sometimes', 'nullable', 'string', 'max:255'],
+            'jira_issues' => ['sometimes', 'array', 'max:20'],
+            'jira_issues.*.key' => ['required_with:jira_issues', 'string', 'max:64', 'regex:/^[A-Z][A-Z0-9_]*-\d+$/', 'distinct:strict'],
+            'jira_issues.*.summary' => ['nullable', 'string', 'max:255'],
             'billable' => ['sometimes', 'boolean'],
             'started_at' => ['sometimes', 'date'],
             'ended_at' => ['sometimes', 'nullable', 'date'],
@@ -121,12 +129,15 @@ class TimeEntryController extends Controller
             $timeEntry->project_id = $data['project_id'];
         }
 
-        // The title goes with its ticket: set together, cleared together.
-        if (array_key_exists('jira_issue_key', $data)) {
-            $timeEntry->jira_issue_key = $data['jira_issue_key'];
-            $timeEntry->jira_issue_summary = $data['jira_issue_key'] === null
-                ? null
-                : ($data['jira_issue_summary'] ?? $timeEntry->jira_issue_summary);
+        // Keep the old single-ticket fields aligned with the first selected ticket.
+        if (array_key_exists('jira_issues', $data) || array_key_exists('jira_issue_key', $data)) {
+            $issues = array_key_exists('jira_issues', $data)
+                ? $data['jira_issues']
+                : $this->legacyIssues($data);
+
+            $timeEntry->jira_issues = $issues;
+            $timeEntry->jira_issue_key = $issues[0]['key'] ?? null;
+            $timeEntry->jira_issue_summary = $issues[0]['summary'] ?? null;
         }
 
         if (isset($data['billable'])) {
@@ -176,6 +187,19 @@ class TimeEntryController extends Controller
     private function ownProject(Request $request): Exists
     {
         return Rule::exists('projects', 'id')->where('user_id', $request->user()->id);
+    }
+
+    /** @return array<int, array{key: string, summary: ?string}> */
+    private function legacyIssues(array $data): array
+    {
+        if (! isset($data['jira_issue_key'])) {
+            return [];
+        }
+
+        return [[
+            'key' => $data['jira_issue_key'],
+            'summary' => $data['jira_issue_summary'] ?? null,
+        ]];
     }
 
     private function ensureOwnedBy(Request $request, TimeEntry $timeEntry): void

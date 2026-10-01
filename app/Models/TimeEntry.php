@@ -14,6 +14,7 @@ class TimeEntry extends Model
         'project_id',
         'jira_issue_key',
         'jira_issue_summary',
+        'jira_issues',
         'started_at',
         'ended_at',
         'billable',
@@ -28,6 +29,7 @@ class TimeEntry extends Model
             // Stored encrypted with APP_KEY, so they cannot be searched in SQL.
             'description' => 'encrypted',
             'jira_issue_summary' => 'encrypted',
+            'jira_issues' => 'encrypted:array',
             'hourly_rate' => EncryptedDecimal::class,
         ];
     }

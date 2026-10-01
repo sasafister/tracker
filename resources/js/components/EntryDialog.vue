@@ -4,10 +4,10 @@ import Button from 'primevue/button';
 import Dialog from 'primevue/dialog';
 import ToggleSwitch from 'primevue/toggleswitch';
 import DescriptionInput from './DescriptionInput.vue';
-import JiraIssueInput from './JiraIssueInput.vue';
+import JiraIssuesInput from './JiraIssuesInput.vue';
 import ProjectSelect from './ProjectSelect.vue';
 import { t } from '../i18n.js';
-import { jiraConnectionFor, projectsById } from '../store.js';
+import { jiraConnectionFor, jiraIssuesFor, projectsById } from '../store.js';
 import { fromLocalInput, toLocalInput } from '../time.js';
 
 const props = defineProps({
@@ -26,8 +26,7 @@ const emit = defineEmits(['save', 'remove', 'close']);
 const description = ref('');
 const projectId = ref(null);
 const billable = ref(true);
-const jiraKey = ref(null);
-const jiraSummary = ref(null);
+const jiraIssues = ref([]);
 const startsAt = ref('');
 const endsAt = ref('');
 const isRunning = ref(false);
@@ -54,8 +53,7 @@ watch(
         description.value = entry.description ?? '';
         projectId.value = entry.project_id ?? null;
         billable.value = entry.billable ?? true;
-        jiraKey.value = entry.jira_issue_key ?? null;
-        jiraSummary.value = entry.jira_issue_summary ?? null;
+        jiraIssues.value = jiraIssuesFor(entry);
         // A running entry has no end yet and must keep counting after a save.
         isRunning.value = Boolean(entry.id) && entry.ended_at === null;
 
@@ -73,14 +71,19 @@ watch(
 function pickDescription(suggestion) {
     projectId.value = suggestion.project_id;
     billable.value = suggestion.billable;
-    jiraKey.value = suggestion.jira_issue_key;
-    jiraSummary.value = suggestion.jira_issue_summary;
+    jiraIssues.value = suggestion.jira_issues;
 }
 
 function pickTicket(issue) {
-    jiraKey.value = issue.key;
-    jiraSummary.value = issue.summary;
+    if (! jiraIssues.value.some((selected) => selected.key === issue.key)) {
+        jiraIssues.value = [...jiraIssues.value, { key: issue.key, summary: issue.summary }];
+    }
+
     description.value = `${issue.key} ${issue.summary}`.trim();
+}
+
+function updateIssues(issues) {
+    jiraIssues.value = issues;
 }
 
 function save() {
@@ -105,8 +108,7 @@ function save() {
     const changes = {
         description: description.value.trim() || null,
         project_id: projectId.value,
-        jira_issue_key: hasJira.value ? jiraKey.value : null,
-        jira_issue_summary: hasJira.value && jiraKey.value ? jiraSummary.value : null,
+        jira_issues: hasJira.value ? jiraIssues.value : [],
         billable: billable.value,
     };
 
@@ -156,11 +158,11 @@ function save() {
             >
                 <span class="font-medium text-slate-700">{{ t('jira.ticket') }}</span>
 
-                <JiraIssueInput
-                    v-model="jiraKey"
+                <JiraIssuesInput
+                    :model-value="jiraIssues"
                     :project-id="projectId"
-                    :summary="jiraSummary"
                     @pick="pickTicket"
+                    @update:model-value="updateIssues"
                 />
             </label>
 

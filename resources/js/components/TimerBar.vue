@@ -1,11 +1,12 @@
 <script setup>
 import { computed, ref, watch } from 'vue';
 import DescriptionInput from './DescriptionInput.vue';
-import JiraIssueInput from './JiraIssueInput.vue';
+import JiraIssuesInput from './JiraIssuesInput.vue';
 import ProjectSelect from './ProjectSelect.vue';
 import {
     editEntry,
     jiraConnectionFor,
+    jiraIssuesFor,
     projectsById,
     runningEntry,
     startTimer,
@@ -19,8 +20,7 @@ import { entryDuration, formatDuration } from '../time.js';
 const description = ref('');
 const projectId = ref(null);
 const billable = ref(true);
-const jiraKey = ref(null);
-const jiraSummary = ref(null);
+const jiraIssues = ref([]);
 
 const isRunning = computed(() => runningEntry.value !== null);
 
@@ -49,8 +49,7 @@ function toggle() {
     startTimer({
         description: description.value.trim() || null,
         project_id: projectId.value,
-        jira_issue_key: hasJira.value ? jiraKey.value : null,
-        jira_issue_summary: hasJira.value ? jiraSummary.value : null,
+        jira_issues: hasJira.value ? jiraIssues.value : [],
         billable: billable.value,
     });
 }
@@ -102,33 +101,30 @@ function selectProject(id) {
         project_id: id,
     };
 
-    if (! hasJira.value && jiraKey.value !== null) {
-        jiraKey.value = null;
-        jiraSummary.value = null;
-        changes.jira_issue_key = null;
+    if (! hasJira.value && jiraIssues.value.length) {
+        jiraIssues.value = [];
+        changes.jira_issues = [];
     }
 
     changeRunning(changes);
 }
 
 function pickTicket(issue) {
-    jiraKey.value = issue.key;
-    jiraSummary.value = issue.summary;
+    if (! jiraIssues.value.some((selected) => selected.key === issue.key)) {
+        jiraIssues.value = [...jiraIssues.value, { key: issue.key, summary: issue.summary }];
+    }
+
     description.value = `${issue.key} ${issue.summary}`.trim();
 
     changeRunning({
         description: description.value,
-        jira_issue_key: issue.key,
-        jira_issue_summary: issue.summary,
+        jira_issues: jiraIssues.value,
     });
 }
 
-function clearTicket(key) {
-    if (key === null && jiraKey.value !== null) {
-        jiraKey.value = null;
-        jiraSummary.value = null;
-        changeRunning({ jira_issue_key: null });
-    }
+function updateIssues(issues) {
+    jiraIssues.value = issues;
+    changeRunning({ jira_issues: issues });
 }
 
 function toggleBillable() {
@@ -139,14 +135,12 @@ function toggleBillable() {
 function pickDescription(suggestion) {
     projectId.value = suggestion.project_id;
     billable.value = suggestion.billable;
-    jiraKey.value = suggestion.jira_issue_key;
-    jiraSummary.value = suggestion.jira_issue_summary;
+    jiraIssues.value = suggestion.jira_issues;
 
     changeRunning({
         description: suggestion.description,
         project_id: suggestion.project_id,
-        jira_issue_key: suggestion.jira_issue_key,
-        jira_issue_summary: suggestion.jira_issue_summary,
+        jira_issues: suggestion.jira_issues,
         billable: suggestion.billable,
     });
 }
@@ -156,8 +150,7 @@ watch(runningEntry, (entry) => {
     description.value = entry === null ? '' : (entry.description ?? '');
     projectId.value = entry === null ? null : entry.project_id;
     billable.value = entry === null ? true : entry.billable;
-    jiraKey.value = entry === null ? null : (entry.jira_issue_key ?? null);
-    jiraSummary.value = entry === null ? null : (entry.jira_issue_summary ?? null);
+    jiraIssues.value = entry === null ? [] : jiraIssuesFor(entry);
 });
 </script>
 
@@ -191,12 +184,11 @@ watch(runningEntry, (entry) => {
             v-if="hasJira"
             class="order-4 basis-full md:basis-auto md:w-44 md:flex-none"
         >
-            <JiraIssueInput
+            <JiraIssuesInput
                 :project-id="projectId"
-                :model-value="jiraKey"
-                :summary="jiraSummary"
+                :model-value="jiraIssues"
                 @pick="pickTicket"
-                @update:model-value="clearTicket"
+                @update:model-value="updateIssues"
             />
         </div>
 

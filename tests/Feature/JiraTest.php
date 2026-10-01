@@ -254,6 +254,60 @@ class JiraTest extends TestCase
             ->assertJsonPath('jira_issue_key', null);
     }
 
+    public function test_an_entry_can_keep_multiple_encrypted_tickets(): void
+    {
+        $user = User::factory()->create();
+        $issues = [
+            ['key' => 'FUR-800', 'summary' => 'Connect admin branding'],
+            ['key' => 'FUR-801', 'summary' => 'Tune asset upload'],
+        ];
+
+        $entry = $this->actingAs($user)
+            ->postJson('/api/entries', [
+                'description' => 'Branding work',
+                'jira_issues' => $issues,
+            ])
+            ->assertCreated()
+            ->assertJsonPath('jira_issues', $issues)
+            ->assertJsonPath('jira_issue_key', 'FUR-800')
+            ->json();
+
+        $raw = DB::table('time_entries')->where('id', $entry['id'])->value('jira_issues');
+        $this->assertStringStartsWith('eyJ', $raw);
+        $this->assertStringNotContainsString('FUR-800', $raw);
+
+        $updatedIssues = [['key' => 'OPS-3', 'summary' => 'Review deployment']];
+
+        $this->patchJson("/api/entries/{$entry['id']}", ['jira_issues' => $updatedIssues])
+            ->assertOk()
+            ->assertJsonPath('jira_issues', $updatedIssues)
+            ->assertJsonPath('jira_issue_key', 'OPS-3');
+
+        $this->patchJson("/api/entries/{$entry['id']}", ['jira_issues' => []])
+            ->assertOk()
+            ->assertJsonPath('jira_issues', [])
+            ->assertJsonPath('jira_issue_key', null)
+            ->assertJsonPath('jira_issue_summary', null);
+    }
+
+    public function test_an_entry_rejects_duplicate_or_invalid_tickets(): void
+    {
+        $user = User::factory()->create();
+
+        $this->actingAs($user)
+            ->postJson('/api/entries', [
+                'jira_issues' => [
+                    ['key' => 'FUR-800', 'summary' => 'One'],
+                    ['key' => 'FUR-800', 'summary' => 'Duplicate'],
+                ],
+            ])
+            ->assertJsonValidationErrors('jira_issues.1.key');
+
+        $this->postJson('/api/entries', [
+            'jira_issues' => [['key' => 'bad-key', 'summary' => 'Invalid']],
+        ])->assertJsonValidationErrors('jira_issues.0.key');
+    }
+
     public function test_a_token_without_read_jira_user_still_connects_through_a_ticket_search(): void
     {
         Http::fake([
