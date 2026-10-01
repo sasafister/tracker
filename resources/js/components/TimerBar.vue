@@ -182,9 +182,10 @@ watch(runningEntry, (entry) => {
         <!-- On a phone the ticket gets a row of its own, above the project. -->
         <div
             v-if="hasJira"
-            class="order-4 basis-full md:basis-auto md:w-44 md:flex-none"
+            class="order-4 basis-full md:basis-auto md:w-64 md:flex-none"
         >
             <JiraIssuesInput
+                inline
                 :project-id="projectId"
                 :model-value="jiraIssues"
                 @pick="pickTicket"
