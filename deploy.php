@@ -87,6 +87,10 @@ task('tracker:restart', function () {
 });
 
 after('deploy:vendors', 'artisan:package:discover');
-after('artisan:package:discover', 'assets:build');
+
+// Before .env becomes the link to shared/.env, which `sasa` cannot read and
+// Vite opens on every build. The frontend reads no VITE_ variables, so the
+// release's copy of .env.example is all the build needs.
+before('deploy:shared', 'assets:build');
 after('deploy:symlink', 'tracker:restart');
 after('deploy:failed', 'deploy:unlock');
