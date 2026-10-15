@@ -19,6 +19,7 @@ export default {
     'api.sessionExpired': "Deine Sitzung ist abgelaufen. Bitte melde dich erneut an.",
     'api.requestFailed': "Die Anfrage ist fehlgeschlagen ({status}).",
     'timer.placeholder': "Woran arbeitest du?",
+    'timer.placeholderJira': "Woran arbeitest du? Tippe, um auch Jira-Tickets zu suchen",
     'timer.start': "Start",
     'timer.stop': "Stopp",
     'profile.settings': "Profileinstellungen",

@@ -19,6 +19,7 @@ export default {
     'api.sessionExpired': "Seja je potekla, prijavi se znova.",
     'api.requestFailed': "Zahteva ni uspela ({status}).",
     'timer.placeholder': "Na čem delaš?",
+    'timer.placeholderJira': "Na čem delaš? Vpiši za iskanje tudi po Jira ticketih",
     'timer.start': "Začni",
     'timer.stop': "Ustavi",
     'profile.settings': "Nastavitve profila",

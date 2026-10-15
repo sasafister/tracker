@@ -12,12 +12,6 @@ const props = defineProps({
         type: Array,
         default: () => [],
     },
-    // The timer bar has a fixed height, so there the chips sit beside the
-    // picker instead of in a row above it.
-    inline: {
-        type: Boolean,
-        default: false,
-    },
 });
 
 const emit = defineEmits(['update:modelValue', 'pick']);
@@ -44,14 +38,10 @@ function removeIssue(key) {
 </script>
 
 <template>
-    <div
-        class="flex min-w-0 gap-1"
-        :class="inline ? 'flex-row items-center' : 'flex-col'"
-    >
+    <div class="flex min-w-0 flex-col gap-1">
         <div
             v-if="modelValue.length"
-            class="flex gap-1"
-            :class="inline ? 'min-w-0 shrink overflow-hidden' : 'flex-wrap'"
+            class="flex flex-wrap gap-1"
         >
             <span
                 v-for="issue in modelValue"
@@ -72,12 +62,10 @@ function removeIssue(key) {
             </span>
         </div>
 
-        <div :class="inline ? 'min-w-28 flex-1' : ''">
-            <JiraIssueInput
-                :key="pickerInstance"
-                :project-id="projectId"
-                @pick="addIssue"
-            />
-        </div>
+        <JiraIssueInput
+            :key="pickerInstance"
+            :project-id="projectId"
+            @pick="addIssue"
+        />
     </div>
 </template>

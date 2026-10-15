@@ -22,6 +22,7 @@ export default {
     'api.requestFailed': 'The request failed ({status}).',
 
     'timer.placeholder': 'What are you working on?',
+    'timer.placeholderJira': 'What are you working on? Type to search Jira tickets too',
     'timer.start': 'Start',
     'timer.stop': 'Stop',
 

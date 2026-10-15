@@ -1,7 +1,6 @@
 <script setup>
 import { computed, ref, watch } from 'vue';
 import DescriptionInput from './DescriptionInput.vue';
-import JiraIssuesInput from './JiraIssuesInput.vue';
 import ProjectSelect from './ProjectSelect.vue';
 import {
     editEntry,
@@ -109,22 +108,18 @@ function selectProject(id) {
     changeRunning(changes);
 }
 
+/**
+ * A ticket picked in the description becomes the entry: its text and its one
+ * ticket. More tickets on one entry are added in the entry dialog.
+ */
 function pickTicket(issue) {
-    if (! jiraIssues.value.some((selected) => selected.key === issue.key)) {
-        jiraIssues.value = [...jiraIssues.value, { key: issue.key, summary: issue.summary }];
-    }
-
-    description.value = `${issue.key} ${issue.summary}`.trim();
+    jiraIssues.value = [{ key: issue.key, summary: issue.summary }];
+    description.value = `${issue.key} ${issue.summary ?? ''}`.trim();
 
     changeRunning({
         description: description.value,
         jira_issues: jiraIssues.value,
     });
-}
-
-function updateIssues(issues) {
-    jiraIssues.value = issues;
-    changeRunning({ jira_issues: issues });
 }
 
 function toggleBillable() {
@@ -166,8 +161,10 @@ watch(runningEntry, (entry) => {
         <div class="order-1 min-w-0 flex-1">
             <DescriptionInput
                 v-model="description"
-                :placeholder="t('timer.placeholder')"
+                :placeholder="hasJira ? t('timer.placeholderJira') : t('timer.placeholder')"
+                :jira-project-id="hasJira ? projectId : null"
                 @pick="pickDescription"
+                @pick-ticket="pickTicket"
                 @enter="submitDescription"
                 @blur="saveRunningDescription"
             />
@@ -178,20 +175,6 @@ watch(runningEntry, (entry) => {
         </div>
 
         <div class="order-3 basis-full md:hidden"></div>
-
-        <!-- On a phone the ticket gets a row of its own, above the project. -->
-        <div
-            v-if="hasJira"
-            class="order-4 basis-full md:basis-auto md:w-64 md:flex-none"
-        >
-            <JiraIssuesInput
-                inline
-                :project-id="projectId"
-                :model-value="jiraIssues"
-                @pick="pickTicket"
-                @update:model-value="updateIssues"
-            />
-        </div>
 
         <div class="order-4 min-w-0 flex-1 md:w-52 md:flex-none">
             <ProjectSelect
